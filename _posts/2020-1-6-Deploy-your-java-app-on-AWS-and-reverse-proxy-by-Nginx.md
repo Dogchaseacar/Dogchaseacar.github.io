@@ -3,9 +3,11 @@ title: "Deploy java app on AWS and reverse proxy"
 layout: post
 date: 2020-01-06
 ---
+
 ***First of all， I would like to pay my highest respect and appreciation to a friend from the other side of the earth,  whose name is Shell845.  Although we haven't met each other yet,  she has generously given me precious advice on my project.   Here I wanna say thank you so much!***
 
-<font size=3>OK, let's go back to the deployment notes. The target of this blog is taking down the steps and some problems I've came across during the deployment. I am deploying my java app on AWS, so first we need to apply for an AWS account, fortunately, AWS is now providing free trial in one year with limited function. But it is enough for us to deploy our own blog on it.</font>
+
+OK, let's go back to the deployment notes. The target of this blog is taking down the steps and some problems I've came across during the deployment. I am deploying my java app on AWS, so first we need to apply for an AWS account, fortunately, AWS is now providing free trial in one year with limited function. But it is enough for us to deploy our own blog on it.
 
 ## TOOLs
 ##### AWS EC2
@@ -15,9 +17,9 @@ date: 2020-01-06
 ##### Nginx
 
 ## Step 1 Create EC2 instance
-<font size=3>After signing in your AWS account, choose the EC2 service and create an EC2 instance. I am using Linux X86_64 20GB free tier. Carefully keep the master user name and password you have set. Except the security groups, just use the default settings AWS provides.
+After signing in your AWS account, choose the EC2 service and create an EC2 instance. I am using Linux X86_64 20GB free tier. Carefully keep the master user name and password you have set. Except the security groups, just use the default settings AWS provides.
 
-Set the inbound rules of your security group as follows:</font>
+Set the inbound rules of your security group as follows:
 
 
 | Type        | protocal   |  Port range  |Source |
@@ -26,29 +28,29 @@ Set the inbound rules of your security group as follows:</font>
 | Custom TCP|  TCP  |   8080  |0.0.0.0/0|
 | MYSQL/Aurora|   TCP    | 3306 |the source of your db|
 
-<font size=3>We need SSH port for connecting to. So if you want you can also fix the source on your own IP.
+We need SSH port for connecting to. So if you want you can also fix the source on your own IP.
 Port 3306 is for the RDS where we will store our data.
 8080 is for the website access.
 Then after setting, you will get the key pair file. Carefully keep it, it's necessary for us to connect to the this instance!
 
-After creatiing the EC2 instance, it will take few minutes to initialize. After it is done. We can SSH to this server!!! This EC2 instance will be used to hold our java app.</font>
+After creatiing the EC2 instance, it will take few minutes to initialize. After it is done. We can SSH to this server!!! This EC2 instance will be used to hold our java app.
 
 ## Step 2 Create AWS RDS
-<font size=3>We want our data base distributedly deployed to make it safer and stable. We need to apply for an AWS RDS to store our data of our app. I am using MySQL, you can choose any other database you'd like to. After creating, set the RDS to the same VPC as our linux EC2 instance. The seurity group is as follows:</font>
+We want our data base distributedly deployed to make it safer and stable. We need to apply for an AWS RDS to store our data of our app. I am using MySQL, you can choose any other database you'd like to. After creating, set the RDS to the same VPC as our linux EC2 instance. The seurity group is as follows:
 
 | Type        | protocal   |  Port range  |Source |
 | --------   | -----:  | :----:  |:----:  |
 | SSH      | TCP   |  22   |the source of your linux EC2 instance|
 
-<font size=3>Don't forget:  SSH to conncect to your RDS and create the databases you need.</font>
+Don't forget:  SSH to conncect to your RDS and create the databases you need.
 
 ## Step 3 Install jdk and Tomcat
-<font size=3>In the server we just created we need jdk to run our java app and Tomcat. So we must install the jdk first.
+In the server we just created we need jdk to run our java app and Tomcat. So we must install the jdk first.
 Use the ` wget ` command to download the jdk from oracle. Here is a important tip you need remember. If you directly copy the link from the website you can only download the HTML not the jdk. That is because the oracle has set an authentication process for downloading. The correct trick is first downloading the jdk on your own PC after doing the authentication, copy the link from downloader of your browser. Then use this link for your `wget` command instead of the previous one. This is a very hidden but useful trick for downloading jdk from oracle.
 
 After downloading, Use `tar zxvf jdk-8u131-linux-x64.tar.gz` command to unzip the file you just downloaded, the name of the file might be different, just simply change it to the file name you just downloaded.
 
-After unzipping, don't forget to  add the environmental variables. `sudo vim /etc/profile` add the following text to this profile</font>
+After unzipping, don't forget to  add the environmental variables. `sudo vim /etc/profile` add the following text to this profile.
 
 	JAVA_HOME=/home/java/jdk1.8.0_131
 	JRE_HOME=$JAVA_HOME/jre
@@ -86,12 +88,12 @@ We don't want our friends to browse our website via raw IP. So we need do this D
 
 ## Step 6 Reverse proxy by Nginx
 
-<font size=3>Adding the port at the end of your domain is still annoying and not what we want. In addition we want to increase the browsing speed and load balancer. We need the help of reverse proxy. It is quite convenient to do this by Nginx.
+Adding the port at the end of your domain is still annoying and not what we want. In addition we want to increase the browsing speed and load balancer. We need the help of reverse proxy. It is quite convenient to do this by Nginx.
 
 First create another ubuntu instance on EC2 to hold Nginx. Then follow the guidance from official website http://nginx.org/en/linux_packages.html to install Nginx.
 
 After installation, `cd /etc/nginx/nginx.conf` edit the `niginx.conf` by vim.
-add your own server block to it.</font>
+add your own server block to it.
 
 	server {
 	listen      80;
@@ -102,13 +104,13 @@ add your own server block to it.</font>
 	}
 	}
 
-<font size=3>Then go back to Route 53, change the value of the domainname.com to the Ip of your ubuntu server.
-Done! Now you can access to your web without 8080!!!!</font>
+Then go back to Route 53, change the value of the domainname.com to the Ip of your ubuntu server.
+Done! Now you can access to your web without 8080!!!!
 
 ## Step 7 Add HTTPS to your web
 
-<font size=3>To make your website safer, you can use Cerbot to make it, which I also learned from Shell845 XD~
-Here is the link of the guidance which is qiute clear and convenient.</font>
+To make your website safer, you can use Cerbot to make it, which I also learned from Shell845 XD~
+Here is the link of the guidance which is qiute clear and convenient.
 
 https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx.
 
