@@ -1,6 +1,6 @@
 ---
-title: "Deploy java app on AWS and reverse proxy"
 layout: post
+title: "Deploy java app on AWS and reverse proxy"
 date: 2020-01-06
 ---
 
