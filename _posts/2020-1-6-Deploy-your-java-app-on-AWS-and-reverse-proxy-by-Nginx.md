@@ -1,3 +1,8 @@
+---
+title: "Deploy java app on AWS and reverse proxy"
+layout: post
+date: 2020-01-06
+---
 ***First of all， I would like to pay my highest respect and appreciation to a friend from the other side of the earth,  whose name is Shell845.  Although we haven't met each other yet,  she has generously given me precious advice on my project.   Here I wanna say thank you so much!***
 
 <font size=3>OK, let's go back to the deployment notes. The target of this blog is taking down the steps and some problems I've came across during the deployment. I am deploying my java app on AWS, so first we need to apply for an AWS account, fortunately, AWS is now providing free trial in one year with limited function. But it is enough for us to deploy our own blog on it.</font>
