@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deploy java app on AWS and reverse proxy"
+title: Deploy java app on AWS and reverse proxy
 ---
 
 
