@@ -19,6 +19,7 @@ date: 2020-01-06
 
 Set the inbound rules of your security group as follows:</font>
 
+
 | Type        | protocal   |  Port range  |Source |
 | --------   | -----:  | :----:  |:----:  |
 | SSH      | TCP   |  22   |0.0.0.0/0|
@@ -63,14 +64,18 @@ Now the jdk install is finished.
 
 Now `cd tomcatpath/bin` input `./startup.sh`, you can start up the Tomcat! Now you can check if it is successfully installed by accessing to http://EC2IP:8080 in browser. If you can see the default page of Tomcat it means that everything is correct!</font>
 
+
+
 ## Step 4 Wrap up your java app and upload to server
-<font size=3>Before wrapping up to war, you'd better make sure two things, one is adding `<packaging>war</packaging>` to your pom.xml. The other is making sure that your application file is correctly chosen and pointing to the AWS RDS. I've made some mistakes here and my time was wasted!
+Before wrapping up to war, you'd better make sure two things, one is adding `<packaging>war</packaging>` to your pom.xml. The other is making sure that your application file is correctly chosen and pointing to the AWS RDS. I've made some mistakes here and my time was wasted!
+
 After checking these two things, cd to your java app path, then `mvn clean package -Dmaven.test.skip=true`. After it is done, you will get your war file. Then you can upload your war file to your server by `scp -i <your keypair path> <your java app war path> ec2-user@<yourserverIP>:/home/ec2-user/apache-tomcat-9.0.41/webapps`.
+
 
 SSH to your linux EC2, cd to the webapps file, rename the ROOT file to another name just in case. If you made some mistakes you can still rename it back to help you debug. The cd to the bin file of Tomcat. Restart Tomcat, because your java app will be nuzipped by starting Tomcat. Then cd back to webapps, rename your java app to ROOT. This is because Tomcat will run the ROOT file by default on 8080. If nothing is wrong, you can browse your own java web by http://EC2IP:8080!</font>
 
 ## Step 5 DNS reflect
-<font size=3>We don't want our friends to browse our website via raw IP. So we need do this DNS process. First by a domain from a domain seller website and verify it. Then create a public hosted zone on AWS Route 53 with your domain name. Then add two A records. And choose Alias on the www.name.com one.
+We don't want our friends to browse our website via raw IP. So we need do this DNS process. First by a domain from a domain seller website and verify it. Then create a public hosted zone on AWS Route 53 with your domain name. Then add two A records. And choose Alias on the www.name.com one.
 
 | Record name       | Type  |  Value  |
 | --------   | -----:  | :----:  |
