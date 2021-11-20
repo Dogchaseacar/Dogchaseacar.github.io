@@ -4,10 +4,12 @@ layout: post
 date: 2020-01-06
 ---
 
+
 ***First of all， I would like to pay my highest respect and appreciation to a friend from the other side of the earth,  whose name is Shell845.  Although we haven't met each other yet,  she has generously given me precious advice on my project.   Here I wanna say thank you so much!***
 
 
 OK, let's go back to the deployment notes. The target of this blog is taking down the steps and some problems I've came across during the deployment. I am deploying my java app on AWS, so first we need to apply for an AWS account, fortunately, AWS is now providing free trial in one year with limited function. But it is enough for us to deploy our own blog on it.
+
 
 ## TOOLs
 ##### AWS EC2
@@ -16,8 +18,10 @@ OK, let's go back to the deployment notes. The target of this blog is taking dow
 ##### Tomcat
 ##### Nginx
 
+
 ## Step 1 Create EC2 instance
 After signing in your AWS account, choose the EC2 service and create an EC2 instance. I am using Linux X86_64 20GB free tier. Carefully keep the master user name and password you have set. Except the security groups, just use the default settings AWS provides.
+
 
 Set the inbound rules of your security group as follows:
 
@@ -28,15 +32,19 @@ Set the inbound rules of your security group as follows:
 | Custom TCP|  TCP  |   8080  |0.0.0.0/0|
 | MYSQL/Aurora|   TCP    | 3306 |the source of your db|
 
+
 We need SSH port for connecting to. So if you want you can also fix the source on your own IP.
 Port 3306 is for the RDS where we will store our data.
 8080 is for the website access.
 Then after setting, you will get the key pair file. Carefully keep it, it's necessary for us to connect to the this instance!
 
+
 After creatiing the EC2 instance, it will take few minutes to initialize. After it is done. We can SSH to this server!!! This EC2 instance will be used to hold our java app.
+
 
 ## Step 2 Create AWS RDS
 We want our data base distributedly deployed to make it safer and stable. We need to apply for an AWS RDS to store our data of our app. I am using MySQL, you can choose any other database you'd like to. After creating, set the RDS to the same VPC as our linux EC2 instance. The seurity group is as follows:
+
 
 | Type        | protocal   |  Port range  |Source |
 | --------   | -----:  | :----:  |:----:  |
