@@ -63,6 +63,7 @@ Now `cd tomcatpath/bin` input `./startup.sh`, you can start up the Tomcat! Now y
 After checking these two things, cd to your java app path, then `mvn clean package -Dmaven.test.skip=true`. After it is done, you will get your war file. Then you can upload your war file to your server by `scp -i <your keypair path> <your java app war path> ec2-user@<yourserverIP>:/home/ec2-user/apache-tomcat-9.0.41/webapps`.
 
 SSH to your linux EC2, cd to the webapps file, rename the ROOT file to another name just in case. If you made some mistakes you can still rename it back to help you debug. The cd to the bin file of Tomcat. Restart Tomcat, because your java app will be nuzipped by starting Tomcat. Then cd back to webapps, rename your java app to ROOT. This is because Tomcat will run the ROOT file by default on 8080. If nothing is wrong, you can browse your own java web by http://EC2IP:8080!</font>
+
 ## Step 5 DNS reflect
 <font size=3>We don't want our friends to browse our website via raw IP. So we need do this DNS process. First by a domain from a domain seller website and verify it. Then create a public hosted zone on AWS Route 53 with your domain name. Then add two A records. And choose Alias on the www.name.com one.
 
@@ -74,7 +75,6 @@ SSH to your linux EC2, cd to the webapps file, rename the ROOT file to another n
 <font size=3>Then copy the value of NS record. Open the management page of your domain seller, paste the value to the custom DNS server. The we need wait for while, it really depends, usually 1 day to 2days util our domain can be accessed. After that you can browse our own web via http://yourdomainname:8080.</font>
 
 ## Step 6 Reverse proxy by Nginx
-
 <font size=3>Adding the port at the end of your domain is still annoying and not what we want. In addition we want to increase the browsing speed and load balancer. We need the help of reverse proxy. It is quite convenient to do this by Nginx.
 
 First create another ubuntu instance on EC2 to hold Nginx. Then follow the guidance from official website http://nginx.org/en/linux_packages.html to install Nginx.
